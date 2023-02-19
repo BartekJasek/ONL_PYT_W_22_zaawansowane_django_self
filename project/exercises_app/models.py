@@ -63,6 +63,7 @@ PIZZA_SIZES = (
     (3, "XL")
 )
 
+
 class Toppings(models.Model):
     name = models.CharField(max_length=32)
     price = models.FloatField()
@@ -70,6 +71,13 @@ class Toppings(models.Model):
     def __str__(self):
         return f'{self.name} - {self.price}zł'
 
+
 class Pizza(models.Model):
     size = models.IntegerField(choices=PIZZA_SIZES)
     toppings = models.ManyToManyField(Toppings)
+
+
+class PresenceList(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    day = models.DateField()
+    present = models.BooleanField(null=True)

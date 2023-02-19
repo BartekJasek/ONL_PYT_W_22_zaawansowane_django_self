@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from exercises_app.views import SchoolView, SchoolClassView, my_view, StudentView, StudentGradeView, StudentSearchView,\
-    CreateStudentView, PizzaToppingsView
+    CreateStudentView, PizzaToppingsView, ClassPresence, SetColor
 
 
 urlpatterns = [
@@ -30,6 +30,8 @@ urlpatterns = [
     path('student_search/', StudentSearchView.as_view(), name="student-search"),
     path('add_student/', CreateStudentView.as_view(), name="student-add"),
     path('pizza/', PizzaToppingsView.as_view(), name="pizza"),
+    path('class_presence/<int:student_id>/<str:date>/', ClassPresence.as_view(), name="classpresence"),
+    path('set_color/', SetColor.as_view(), name="setcolor"),
     path('my_page/', my_view, name="my-view")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

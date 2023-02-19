@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 
-from .forms import StudentSearchForm, StudentForm, PizzaToppingsForm
-from .models import SCHOOL_CLASS, Student, SchoolSubject, StudentGrades, Pizza
+from .forms import StudentSearchForm, StudentForm, PizzaToppingsForm, PresenceListForm, BackgroundColorForm
+from .models import SCHOOL_CLASS, Student, SchoolSubject, StudentGrades, Pizza, PresenceList
 
 
 class SchoolView(View):
@@ -112,3 +112,35 @@ class PizzaToppingsView(View):
             pizza.toppings.set(toppings)
             context = {'form': PizzaToppingsForm()}
             return render(request, 'pizza_toppings.html', context)
+
+
+class ClassPresence(View):
+    def get(self, request, student_id, date):
+        student = Student.objects.get(id=student_id)
+        logbook = PresenceListForm(initial={'student': student.id, 'day': date})
+        context = {'logbook': logbook}
+        return render(request, 'classpresence.html', context)
+
+    def post(self, request):
+        logbook = PresenceList(request.POST)
+        if logbook.is_valid():
+            student = logbook.cleaned_data['student']
+            day = logbook.cleaned_data['day']
+            present = logbook.cleaned_data['present']
+            presencelist = PresenceList.objects.create(student=student, day=day, present=present)
+            context = {'form': PresenceList()}
+            return render(request, 'classpresence.html', context)
+
+
+class SetColor(View):
+    def get(self, request):
+        colorform = BackgroundColorForm()
+        context = {'colorform': colorform}
+        return render(request, 'backgroundcolor.html', context)
+
+    def post(self, request):
+        colorform = BackgroundColorForm(request.POST)
+        if colorform.is_valid():
+            color = colorform.cleaned_data['color']
+            context = {'form': BackgroundColorForm, 'color': color}
+            return render(request, 'backgroundcolor.html', context)

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="POST" action="">
+    <body style="background-color: {{ color }}"></body>
+    {% csrf_token %}
+    {{ colorform }}
+    <input type="submit" value="Dodaj">
+    </form>
+{% endblock %}
