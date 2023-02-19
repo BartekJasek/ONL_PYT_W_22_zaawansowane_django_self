@@ -40,6 +40,7 @@ class Student(models.Model):
     last_name = models.CharField(max_length=64)
     school_class = models.IntegerField(choices=SCHOOL_CLASS)
     grades = models.ManyToManyField(SchoolSubject, through="StudentGrades")
+    year_of_birth = models.IntegerField(null=True)
 
     @property
     def name(self):
@@ -53,3 +54,22 @@ class StudentGrades(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     school_subject = models.ForeignKey(SchoolSubject, on_delete=models.CASCADE)
     grade = models.FloatField(choices=GRADES)
+
+
+PIZZA_SIZES = (
+    (0, "S"),
+    (1, "M"),
+    (2, "L"),
+    (3, "XL")
+)
+
+class Toppings(models.Model):
+    name = models.CharField(max_length=32)
+    price = models.FloatField()
+
+    def __str__(self):
+        return f'{self.name} - {self.price}zł'
+
+class Pizza(models.Model):
+    size = models.IntegerField(choices=PIZZA_SIZES)
+    toppings = models.ManyToManyField(Toppings)

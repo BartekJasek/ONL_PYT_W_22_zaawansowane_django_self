@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Uczeń:</h2>
+    <p><b>Imię i Nazwisko: </b>{{ student.first_name }} {{ student.last_name }}</p>
+    <p><b>Klasa: </b>{{ student.get_school_class_display }}</p>
+    <h2>Przedmiot:</h2>
+    <p><b>Przedmiot: </b>{{ subject.name }}</p>
+    <p><b>Nauczyciel: </b>{{ subject.teacher_name }}</p>
+    <h2>Oceny:</h2>
+    <ul>
+        {%for grade in grades %}
+        <li>{{ grade.get_grade_display }}</li>
+        {% endfor %}
+    </ul>
+<p><b>Średnia: </b>{{ average }}</p>
+{% endblock %}

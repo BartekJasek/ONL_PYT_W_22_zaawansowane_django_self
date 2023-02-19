@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Uczeń:</h2>
+    <p><b>Imię: </b>{{ student.first_name }}</p>
+    <p><b>Nazwisko: </b>{{ student.last_name }}</p>
+    <p><b>Klasa: </b>{{ student.get_school_class_display }}</p>
+    <p><b>Data urodzenia: </b>{{ student.year_of_birth }}</p>
+    <h2>Przedmioty:</h2>
+    <ul>
+    {% for subject in subjects %}
+        <li>
+            <a href={% url 'student-grade' student_id=student.id subject_id=subject.id %}>{{ subject.name }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
